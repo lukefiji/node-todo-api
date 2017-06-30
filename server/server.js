@@ -19,7 +19,7 @@ app.post("/todos", (req, res) => {
 
   // Save todo
   todo.save().then(
-    () => {
+    doc => {
       res.send(doc);
     },
     e => {
@@ -32,3 +32,6 @@ app.post("/todos", (req, res) => {
 app.listen(3000, () => {
   console.log("Listening on port 3000");
 });
+
+// Export server for testing
+module.exports = { app };

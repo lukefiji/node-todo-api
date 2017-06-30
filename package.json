@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Todo API made with Node",
   "main": "index.js",
+  "scripts": {
+    "test": "mocha server/**/*.test.js",
+    "test-watch": "nodemon --exec 'npm test'"
+  },
   "repository": "https://github.com/lukefiji/node-todo-api",
   "author": "Luke Fiji <luke.fiji@gmail.com>",
   "license": "MIT",
@@ -11,5 +15,11 @@
     "express": "4.14.0",
     "mongodb": "2.2.5",
     "mongoose": "4.5.9"
+  },
+  "devDependencies": {
+    "expect": "1.20.2",
+    "mocha": "3.0.2",
+    "nodemon": "1.10.2",
+    "supertest": "2.0.0"
   }
 }
