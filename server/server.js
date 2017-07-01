@@ -75,7 +75,10 @@ app.delete("/todos/:id", (req, res) => {
 
   Todo.findByIdAndRemove(id)
     .then(todo => {
-      todo ? res.send(todo) : res.status(404).send();
+      // If todo doesn't exist
+      if (!todo) res.status(404).send();
+
+      res.send({ todo });
     })
     .catch(e => {
       res.status(400).send();
