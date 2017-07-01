@@ -55,9 +55,11 @@ app.get("/todos/:id", (req, res) => {
   Todo.findById(id)
     .then(todo => {
       // If id is valid but todo isn't found
-      if (!todo) res.status(400).send();
+      if (!todo) res.status(404).send();
+
       // If todo is found
-      res.send(todo);
+      // -- Object so you can add additional properties
+      res.send({ todo });
     })
     // If error - send 400 Bad Request
     .catch(e => res.status(400).send());
