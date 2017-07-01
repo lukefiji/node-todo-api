@@ -30,6 +30,7 @@ app.post("/todos", (req, res) => {
 });
 
 app.get("/todos", (req, res) => {
+  // Get all todos
   Todo.find().then(
     todos => {
       res.send({ todos });
