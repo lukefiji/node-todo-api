@@ -8,6 +8,7 @@ const { Todo } = require("./models/todo");
 const { User } = require("./models/user");
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 // Use body-parser to send json to Express app
 app.use(bodyParser.json());
@@ -65,8 +66,8 @@ app.get("/todos/:id", (req, res) => {
     .catch(e => res.status(400).send());
 });
 
-app.listen(3000, () => {
-  console.log("Listening on port 3000");
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
 });
 
 // Export server for testing

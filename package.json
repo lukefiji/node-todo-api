@@ -4,8 +4,12 @@
   "description": "Todo API made with Node",
   "main": "index.js",
   "scripts": {
+    "start": "node server/server",
     "test": "mocha server/**/*.test.js",
     "test-watch": "nodemon --exec 'npm test'"
+  },
+  "engines": {
+    "node": "8.0.0"
   },
   "repository": "https://github.com/lukefiji/node-todo-api",
   "author": "Luke Fiji <luke.fiji@gmail.com>",
