@@ -8,7 +8,12 @@ const { ObjectID } = require("mongodb");
 // Create sample todos
 const todos = [
   { _id: new ObjectID(), text: "First test todo" },
-  { _id: new ObjectID(), text: "Second test todo" }
+  {
+    _id: new ObjectID(),
+    text: "Second test todo",
+    completed: true,
+    completedAt: 333
+  }
 ];
 
 // Testing lifecycle method
@@ -137,5 +142,54 @@ describe("DELETE /todos/:id", () => {
 
   it("should return 404 if object id is invalid", done => {
     request(app).delete("/todos/123abc").expect(404).end(done);
+  });
+});
+
+describe("PATCH /todos/:id", done => {
+  it("should update the todo", done => {
+    // Grab id of first mock todo item
+    const hexId = todos[0]._id;
+
+    // New body to send patch
+    const body = { text: "New text", completed: true };
+
+    // Update text, set completed true
+    request(app)
+      .patch(`/todos/${hexId}`)
+      .send(body)
+      .expect(200)
+      // You can also test against req.body
+      .end((err, res) => {
+        if (err) return done(err);
+
+        Todo.findById(hexId)
+          .then(todo => {
+            expect(todo.text).toBe("New text");
+            expect(todo.completed).toBe(true);
+            expect(todo.completedAt).toBeA("number");
+            done();
+          })
+          .catch(e => done(e));
+      });
+  });
+
+  it("should should clear completedAt when todo is not completed", done => {
+    // Grab id of second mock todo item
+    const hexId = todos[1]._id;
+
+    const body = { text: "Changed second todo", completed: false };
+
+    // Update text, set completed to false
+    request(app)
+      .patch(`/todos/${hexId}`)
+      .send(body)
+      .expect(200)
+      // You can also test against db query
+      .expect(res => {
+        expect(res.body.todo.text).toBe("Changed second todo");
+        expect(res.body.todo.completed).toBe(false);
+        expect(res.body.todo.completedAt).toNotExist();
+      })
+      .end(done());
   });
 });
