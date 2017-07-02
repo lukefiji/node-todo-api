@@ -105,6 +105,7 @@ app.patch("/todos/:id", (req, res) => {
     body.completedAt = null; // Remove completion time
   }
 
+  // $new returns modified document
   Todo.findByIdAndUpdate(id, { $set: body }, { $new: true })
     .then(todo => {
       if (!todo) return res.status(404).send();
