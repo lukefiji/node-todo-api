@@ -1,3 +1,5 @@
+require("./config/config");
+
 const _ = require("lodash");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -9,7 +11,7 @@ const { Todo } = require("./models/todo");
 const { User } = require("./models/user");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 // Use body-parser to send json to Express app
 app.use(bodyParser.json());
@@ -106,7 +108,7 @@ app.patch("/todos/:id", (req, res) => {
   }
 
   // $new returns modified document
-  Todo.findByIdAndUpdate(id, { $set: body }, { $new: true })
+  Todo.findByIdAndUpdate(id, { $set: body }, { new: true })
     .then(todo => {
       if (!todo) return res.status(404).send();
 

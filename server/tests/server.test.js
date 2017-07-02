@@ -145,10 +145,10 @@ describe("DELETE /todos/:id", () => {
   });
 });
 
-describe("PATCH /todos/:id", done => {
+describe("PATCH /todos/:id", () => {
   it("should update the todo", done => {
     // Grab id of first mock todo item
-    const hexId = todos[0]._id;
+    const hexId = todos[0]._id.toHexString();
 
     // New body to send patch
     const body = { text: "New text", completed: true };
@@ -175,8 +175,7 @@ describe("PATCH /todos/:id", done => {
 
   it("should should clear completedAt when todo is not completed", done => {
     // Grab id of second mock todo item
-    const hexId = todos[1]._id;
-
+    const hexId = todos[1]._id.toHexString();
     const body = { text: "Changed second todo", completed: false };
 
     // Update text, set completed to false
@@ -190,6 +189,6 @@ describe("PATCH /todos/:id", done => {
         expect(res.body.todo.completed).toBe(false);
         expect(res.body.todo.completedAt).toNotExist();
       })
-      .end(done());
+      .end(done);
   });
 });
