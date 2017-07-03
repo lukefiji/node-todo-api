@@ -119,6 +119,25 @@ app.patch("/todos/:id", (req, res) => {
     });
 });
 
+app.post("/users", (req, res) => {
+  // Pick out only email and password fields in the POST request
+  const body = _.pick(req.body, ["email", "password"]);
+
+  // Create a new user from the picked requests
+  const user = new User(body);
+
+  user
+    .save()
+    .then(() => {
+      return user.generateAuthToken();
+    })
+    .then(token => {
+      // 'x-' is a prefix for custom headers
+      res.header("x-auth", token).send(user);
+    })
+    .catch(e => res.status(400).send(e));
+});
+
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });

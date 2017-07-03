@@ -1,3 +1,4 @@
+// Setting process variables based on environment
 var env = process.env.NODE_ENV || "development";
 
 if (env === "development") {
