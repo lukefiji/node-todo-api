@@ -142,8 +142,24 @@ app.post("/users", (req, res) => {
 });
 
 // Private route
+// Use authenticate as a middleware
 app.get("/users/me", authenticate, (req, res) => {
   res.send(req.user);
+});
+
+app.post("/users/login", (req, res) => {
+  const body = _.pick(req.body, ["email", "password"]);
+
+  User.findByCredentials(body.email, body.password)
+    // Send user a generated token
+    .then(user => {
+      user.generateAuthToken().then(token => {
+        res.header("x-auth", token).send(user);
+      });
+    })
+    .catch(e => {
+      res.status(400).send();
+    });
 });
 
 app.listen(PORT, () => {
