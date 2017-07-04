@@ -59,3 +59,5 @@ typings/
 
 .ds_store
 .sonarlint
+
+server/config/config.json
